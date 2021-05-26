@@ -19,7 +19,7 @@ describe('Server', function() {
             (err) => {assert.ok(false, err)})
         })
         it('should get Default company', function() {
-            return axios.get(serverUrl + '/Company', {name : defaultName})
+            return axios.get(serverUrl + '/Company', {params : {name : defaultName}})
             .then((res) => {
                 if (res.data.name == defaultName)
                     assert.ok(true)
@@ -36,7 +36,7 @@ describe('Server', function() {
             (err) => {assert.ok(false, err)})
         })
         it('should get Default user', function() {
-            return axios.get(serverUrl + '/User', {name : defaultName})
+            return axios.get(serverUrl + '/User', {params : {name : defaultName}})
             .then((res) => {
                 if (res.data.name == defaultName)
                     assert.ok(true)
@@ -44,6 +44,18 @@ describe('Server', function() {
                     assert.ok(false, "User does not match default name")
             },
             (err) => {assert.ok(false, err)})
+        })
+    })
+    describe('Link Company to User', function() {
+        it('should create a link between Default user and Default company', async function(){
+            let company = (await axios.get(serverUrl + '/Company', {params : {name : defaultName}})).data
+            let user = (await axios.get(serverUrl + '/User', {params : {name : defaultName}})).data
+            await axios.post(serverUrl + '/LinkCompanyToUser', {companyId: company.id, userId: user.id})
+        })
+        it('should delete a link between Default user and Default company', async function(){
+            let company = (await axios.get(serverUrl + '/Company', {params : {name : defaultName}})).data
+            let user = (await axios.get(serverUrl + '/User', {params : {name : defaultName}})).data
+            await axios.delete(serverUrl + '/LinkCompanyToUser', {data : {companyId: company.id, userId: user.id}})
         })
     })
 })
