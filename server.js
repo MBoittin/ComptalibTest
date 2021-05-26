@@ -38,6 +38,20 @@ app.get('/Company', (req, res) => {
     .catch((err) => res.status(404).send({error: 'Not found'}))
 })
 
+app.delete('/Company', (req, res) => {
+    if (req.body.id == undefined)
+        req.body.id = null;
+    if (req.body.name == undefined)
+        req.body.name = null;
+    Company.findOne({where: {[Op.or]: [{name: req.body.name}, {id: req.body.id}]}})
+    .then((company) => {
+        CompanyToUser.destroy({where : {companyId: company.id}})
+        company.destroy();
+        res.send('ok')
+    })
+    .catch((err) => res.status(400).send({error: 'Bad request'}))
+})
+
 app.post('/User', (req, res) => {
     User.create({name: req.body.name})
     .then(() => res.send('ok'))
@@ -63,6 +77,20 @@ app.get('/User', (req, res) => {
         })
     })
     .catch((err) => res.status(404).send({error: 'Not found'}))
+})
+
+app.delete('/User', (req, res) => {
+    if (req.body.id == undefined)
+        req.body.id = null;
+    if (req.body.name == undefined)
+        req.body.name = null;
+    User.findOne({where: {[Op.or]: [{name: req.body.name}, {id: req.body.id}]}})
+    .then((user) => {
+        CompanyToUser.destroy({where : {userId: user.id}})
+        user.destroy();
+        res.send('ok')
+    })
+    .catch((err) => res.status(400).send({error: 'Bad request'}))
 })
 
 app.post('/LinkCompanyToUser', (req, res) => {

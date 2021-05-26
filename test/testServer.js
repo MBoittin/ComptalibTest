@@ -58,6 +58,18 @@ describe('Server', function() {
             await axios.delete(serverUrl + '/LinkCompanyToUser', {data : {companyId: company.id, userId: user.id}})
         })
     })
+    describe('Cleaning database', function() {
+        it('should delete Default company', function() {
+            return axios.delete(serverUrl + '/Company', {data: {name : defaultName}})
+            .then((res) => {assert.ok(true)},
+            (err) => {assert.ok(false, err)})
+        })
+        it('should delete Default user', function() {
+            return axios.delete(serverUrl + '/User', {data: {name : defaultName}})
+            .then((res) => {assert.ok(true)},
+            (err) => {assert.ok(false, err)})
+        })
+    })
 })
 
 after((done) => {
