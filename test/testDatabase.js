@@ -14,7 +14,7 @@ describe('Database', function() {
   });
   describe('Company model', function() {
     it('should sync company model', function() {
-      return Company.sync({force: true})
+      return Company.sync({})
       .then((res) => {assert.ok(true);},
       (err) => {assert.ok(false, err)})
     })
@@ -31,7 +31,7 @@ describe('Database', function() {
   });
   describe('User model', function() {
     it('should sync user model', function() {
-      return User.sync({force : true})
+      return User.sync({})
       .then((res) => {assert.ok(true);},
       (err) => {assert.ok(false, err)})
     })
@@ -48,7 +48,7 @@ describe('Database', function() {
   });
   describe('CompanyToUser model', function() {
     it('should sync CompanyToUser model', function() {
-      return CompanyToUser.sync({force: true})
+      return CompanyToUser.sync({})
       .then((res) => {assert.ok(true);},
       (err) => {assert.ok(false, err)})
     })

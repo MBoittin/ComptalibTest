@@ -11,4 +11,6 @@ CompanyToUser.init({
     modelName: "CompanyToUser"
 })
 
+CompanyToUser.sync({})
+
 module.exports = CompanyToUser;

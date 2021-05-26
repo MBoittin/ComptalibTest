@@ -11,4 +11,6 @@ Company.init({
     modelName: "Company"
 })
 
+Company.sync({})
+
 module.exports = Company;
