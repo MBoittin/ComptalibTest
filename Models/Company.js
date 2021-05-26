@@ -4,7 +4,7 @@ const db = require('../database');
 class Company extends Model {}
 
 Company.init({
-    name: DataTypes.STRING,
+    name: {type: DataTypes.STRING, allowNull: false, unique: true},
     id: {type : DataTypes.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true} 
 }, {
     sequelize : db,
