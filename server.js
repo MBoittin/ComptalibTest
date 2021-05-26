@@ -52,6 +52,15 @@ app.delete('/Company', (req, res) => {
     .catch((err) => res.status(400).send({error: 'Bad request'}))
 })
 
+app.put('/EditCompany', (req, res) => {
+    Company.findOne({where: {id : req.body.id}})
+    .then((company) => {
+        company.update(req.body)
+        .then(res.send('ok'))
+    })
+    .catch((err) => res.status(400).send({error: 'Bad request'}))
+})
+
 app.post('/User', (req, res) => {
     User.create({name: req.body.name})
     .then(() => res.send('ok'))
@@ -89,6 +98,15 @@ app.delete('/User', (req, res) => {
         CompanyToUser.destroy({where : {userId: user.id}})
         user.destroy();
         res.send('ok')
+    })
+    .catch((err) => res.status(400).send({error: 'Bad request'}))
+})
+
+app.put('/EditUser', (req, res) => {
+    User.findOne({where: {id : req.body.id}})
+    .then((user) => {
+        user.update(req.body)
+        .then(res.send('ok'))
     })
     .catch((err) => res.status(400).send({error: 'Bad request'}))
 })

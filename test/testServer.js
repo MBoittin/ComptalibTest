@@ -6,6 +6,7 @@ let server
 let port = 3000
 let serverUrl = 'http://localhost:' + port
 let defaultName = 'Default'
+let newName = 'Default2'
 
 before((done) => {
     server = app.listen(port, done);
@@ -28,6 +29,11 @@ describe('Server', function() {
             },
             (err) => {assert.ok(false, err)})
         })
+        it('should update company name to Default2', async function(){
+            let user = await axios.get(serverUrl + '/Company', {params : {name : defaultName}})
+            await axios.put(serverUrl + '/EditCompany', {id: user.data.id, name: newName})
+            assert.ok(true)
+        })
     })
     describe('User CRUD', function() {
         it('should create a Default user', function() {
@@ -45,27 +51,32 @@ describe('Server', function() {
             },
             (err) => {assert.ok(false, err)})
         })
+        it('should update user name to Default2', async function(){
+            let user = await axios.get(serverUrl + '/User', {params : {name : defaultName}})
+            await axios.put(serverUrl + '/EditUser', {id: user.data.id, name: newName})
+            assert.ok(true)
+        })
     })
     describe('Link Company to User', function() {
         it('should create a link between Default user and Default company', async function(){
-            let company = (await axios.get(serverUrl + '/Company', {params : {name : defaultName}})).data
-            let user = (await axios.get(serverUrl + '/User', {params : {name : defaultName}})).data
+            let company = (await axios.get(serverUrl + '/Company', {params : {name : newName}})).data
+            let user = (await axios.get(serverUrl + '/User', {params : {name : newName}})).data
             await axios.post(serverUrl + '/LinkCompanyToUser', {companyId: company.id, userId: user.id})
         })
         it('should delete a link between Default user and Default company', async function(){
-            let company = (await axios.get(serverUrl + '/Company', {params : {name : defaultName}})).data
-            let user = (await axios.get(serverUrl + '/User', {params : {name : defaultName}})).data
+            let company = (await axios.get(serverUrl + '/Company', {params : {name : newName}})).data
+            let user = (await axios.get(serverUrl + '/User', {params : {name : newName}})).data
             await axios.delete(serverUrl + '/LinkCompanyToUser', {data : {companyId: company.id, userId: user.id}})
         })
     })
     describe('Cleaning database', function() {
         it('should delete Default company', function() {
-            return axios.delete(serverUrl + '/Company', {data: {name : defaultName}})
+            return axios.delete(serverUrl + '/Company', {data: {name : newName}})
             .then((res) => {assert.ok(true)},
             (err) => {assert.ok(false, err)})
         })
         it('should delete Default user', function() {
-            return axios.delete(serverUrl + '/User', {data: {name : defaultName}})
+            return axios.delete(serverUrl + '/User', {data: {name : newName}})
             .then((res) => {assert.ok(true)},
             (err) => {assert.ok(false, err)})
         })
