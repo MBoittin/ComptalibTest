@@ -38,6 +38,14 @@ app.get('/Company', (req, res) => {
     .catch((err) => res.status(404).send({error: 'Not found'}))
 })
 
+app.get('/GetAllCompanies', (req, res) => {
+    Company.findAll({raw : true})
+    .then((companies) => {
+        res.send(companies);
+    })
+    .catch((err) => res.status(404).send({error: 'Not found'}))
+})
+
 app.delete('/Company', (req, res) => {
     if (req.body.id == undefined)
         req.body.id = null;
@@ -84,6 +92,14 @@ app.get('/User', (req, res) => {
             resUser.companies = resCompanies
             res.send(resUser)
         })
+    })
+    .catch((err) => res.status(404).send({error: 'Not found'}))
+})
+
+app.get('/GetAllUsers', (req, res) => {
+    User.findAll({raw : true})
+    .then((users) => {
+        res.send(users);
     })
     .catch((err) => res.status(404).send({error: 'Not found'}))
 })
